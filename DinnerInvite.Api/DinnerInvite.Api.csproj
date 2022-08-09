@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <UserSecretsId>b3a74516-f76c-41fe-972d-e4316f4126bf</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DinnerInvite.Contracts\DinnerInvite.Contracts.csproj" />
+    <ProjectReference Include="..\DinnerInvite.Application\DinnerInvite.Application.csproj" />
+    <ProjectReference Include="..\DinnerInvite.Infrastructure\DinnerInvite.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
