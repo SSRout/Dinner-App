@@ -1,6 +1,8 @@
 # Buber Breakfast API
 
 - [Buber Breakfast API](#buber-breakfast-api)
+  - [Register User](#register-user)
+  - [Login User](#login-user)
   - [Create Breakfast](#create-breakfast)
     - [Create Breakfast Request](#create-breakfast-request)
     - [Create Breakfast Response](#create-breakfast-response)
@@ -13,6 +15,32 @@
   - [Delete Breakfast](#delete-breakfast)
     - [Delete Breakfast Request](#delete-breakfast-request)
     - [Delete Breakfast Response](#delete-breakfast-response)
+
+## Register User
+```
+POST / register
+```
+
+```json
+{
+    "FirstName":"test",
+    "LastName":"test",
+    "Email":"test@mail.com",
+    "Password":"123"
+}
+```
+
+## Login User
+```
+POST / login
+```
+
+```json
+{
+    "Email":"test@mail.com",
+    "Password":"123"
+}
+```
 
 ## Create Breakfast
 
