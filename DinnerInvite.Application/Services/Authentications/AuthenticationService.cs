@@ -1,4 +1,5 @@
 ﻿using System;
+using DinnerInvite.Application.Common.Errors;
 using DinnerInvite.Application.Common.Interfaces.Authentication;
 using DinnerInvite.Application.Common.Interfaces.Persistence;
 using DinnerInvite.Application.Services.Authentications;
@@ -20,7 +21,7 @@ namespace DinnerInvite.Application
         {
             //1.Check user Exists
             if(_userRepo.GetUserByEmail(email) is not null){
-                throw new Exception("User Exists.");
+                throw new DuplicateEmailException();
             }
             //2.Create User and save to Db
             var user=new User
