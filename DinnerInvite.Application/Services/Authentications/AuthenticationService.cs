@@ -3,7 +3,9 @@ using DinnerInvite.Application.Common.Errors;
 using DinnerInvite.Application.Common.Interfaces.Authentication;
 using DinnerInvite.Application.Common.Interfaces.Persistence;
 using DinnerInvite.Application.Services.Authentications;
+using DinnerInvite.Domain.Common.Errors;
 using DinnerInvite.Domain.Entities;
+using ErrorOr;
 
 namespace DinnerInvite.Application
 {
@@ -17,11 +19,12 @@ namespace DinnerInvite.Application
             _userRepo = userRepo;
         }
 
-        public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+        public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
         {
             //1.Check user Exists
             if(_userRepo.GetUserByEmail(email) is not null){
-                throw new DuplicateEmailException();
+                //throw new DuplicateEmailException();
+                return Errors.User.DuplicateEmail;
             }
             //2.Create User and save to Db
             var user=new User
@@ -38,15 +41,15 @@ namespace DinnerInvite.Application
             return new AuthenticationResult(user,token);
         }
 
-        public AuthenticationResult Login(string email, string password)
+        public ErrorOr<AuthenticationResult> Login(string email, string password)
         {
             //1.Validate User Exists
             if(_userRepo.GetUserByEmail(email) is not User user){
-                throw new Exception("inavlid email");
+                return Errors.Authentication.InvalidCredential;
             }
             //2.Validate Password
             if(user.Password!=password){
-                throw new Exception("Invalid Password");
+                return new [] {Errors.Authentication.InvalidCredential};
             }
             //3.Create JWT Token
             var token=_tokenGen.GenToken(user);

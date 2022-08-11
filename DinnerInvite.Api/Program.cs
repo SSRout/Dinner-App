@@ -1,4 +1,4 @@
-using DinnerInvite.Api.Common.Error;
+using DinnerInvite.Api.Common.Errors;
 using DinnerInvite.Api.Filters;
 using DinnerInvite.Api.Middleware;
 using DinnerInvite.Application;

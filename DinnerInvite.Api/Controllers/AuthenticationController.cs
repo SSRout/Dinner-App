@@ -1,12 +1,13 @@
 using DinnerInvite.Application.Services.Authentications;
 using DinnerInvite.Contracts.Authentication;
+using ErrorOr;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinnerInvite.Api.Controllers
-{
-    [ApiController]
+{   
     [Route("auth")]
-    public class AuthenticationController : ControllerBase    
+    public class AuthenticationController : ApiController    
     {
         private readonly IAuthenticationService _authService;
 
@@ -18,32 +19,38 @@ namespace DinnerInvite.Api.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
-            var authResult=_authService.Register(request.FirstName,request.LastName,request.Email,request.Password);
+            ErrorOr<AuthenticationResult> authResult = _authService.Register(request.FirstName, request.LastName, request.Email, request.Password);
 
-            var authResponse=new AuthenticationResponse(
-                authResult.user.id,
-                authResult.user.FirstName,
-                authResult.user.LastName,
-                authResult.user.Email,
-                authResult.token
+            return authResult.Match(
+                authResult => Ok(MapAuthResult(authResult)),
+                errors=>Problem(errors)
             );
-
-            return Ok(authResponse);
         }
 
         [HttpPost("login")]
         public IActionResult Login(LoginRequest request)
         {
             var authResult=_authService.Login(request.Email,request.Password);
-            
-            var authResponse=new AuthenticationResponse(
-                authResult.user.id,
-                authResult.user.FirstName,
-                authResult.user.LastName,
-                authResult.user.Email,
-                authResult.token
+
+            if(authResult.IsError && authResult.FirstError== Domain.Common.Errors.Errors.Authentication.InvalidCredential){
+                return Problem(statusCode:StatusCodes.Status401Unauthorized,title:authResult.FirstError.Description);
+            }
+
+            return authResult.Match(
+                 authResult => Ok(MapAuthResult(authResult)),
+                errors=>Problem(errors)
             );
-            return Ok(authResponse);
+        }
+
+        private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
+        {
+            return new AuthenticationResponse(
+                            authResult.user.id,
+                            authResult.user.FirstName,
+                            authResult.user.LastName,
+                            authResult.user.Email,
+                            authResult.token
+                        );
         }
 
     }
