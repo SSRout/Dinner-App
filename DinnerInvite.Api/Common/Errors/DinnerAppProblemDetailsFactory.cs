@@ -1,12 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using DinnerInvite.Api.Common.Http;
+using ErrorOr;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace DinnerInvite.Api.Common.Error
+namespace DinnerInvite.Api.Common.Errors
 {
     public class DinnerAppProblemDetailsFactory : ProblemDetailsFactory
     {
@@ -77,7 +81,11 @@ namespace DinnerInvite.Api.Common.Error
             {
                 problemDetails.Extensions["traceId"] = traceId;
             }
-            problemDetails.Extensions.Add("CustomProperty", "CustomValue");
+            var errors=httpContext?.Items[HttpContextItemKeys.Errors] as List<Error>;
+            if(errors is not null)
+            {
+                problemDetails.Extensions.Add("errorCodes", errors.Select(errors=>errors.Code));
+            }
         }
     }
 }
