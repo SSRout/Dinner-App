@@ -1,11 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
-using DinnerInvite.Application.Services.Authentications;
+using MediatR;
+
 namespace DinnerInvite.Application
 {
     public static class DependencyInjection
     {
         public static IServiceCollection AddApplication(this IServiceCollection service){
-            service.AddScoped<IAuthenticationService,AuthenticationService>();
+            service.AddMediatR(typeof(DependencyInjection).Assembly);
             return service;
         }
     }
