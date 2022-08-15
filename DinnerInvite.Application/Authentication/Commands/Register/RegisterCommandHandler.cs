@@ -23,6 +23,7 @@ namespace DinnerInvite.Application.Authentication.Commands.Register
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
             //1.Check user Exists
             if(_userRepo.GetUserByEmail(command.Email) is not null){
                 //throw new DuplicateEmailException();
