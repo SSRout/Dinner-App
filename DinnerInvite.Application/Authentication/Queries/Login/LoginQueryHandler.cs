@@ -21,6 +21,7 @@ namespace DinnerInvite.Application.Authentication.Queries.Login
         }
         public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
              //1.Validate User Exists
             if(_userRepo.GetUserByEmail(query.Email) is not User user){
                 return Errors.Authentication.InvalidCredential;
