@@ -26,7 +26,6 @@ namespace DinnerInvite.Application.Authentication.Commands.Register
             await Task.CompletedTask;
             //1.Check user Exists
             if(_userRepo.GetUserByEmail(command.Email) is not null){
-                //throw new DuplicateEmailException();
                 return Errors.User.DuplicateEmail;
             }
             //2.Create User and save to Db
