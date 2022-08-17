@@ -15,6 +15,7 @@ namespace DinnerInvite.Infrastructure
             service.AddSingleton<IjwtTokenGenearator,JwtTokenGenerator>();
             service.AddSingleton<IDateTimeProvider,DateTimeProvider>();
             service.AddScoped<IUserRepository,UserRepository>();
+            service.AddScoped<IBreakfastRepository,BreakFastRepository>();
             return service;
         }
     }
