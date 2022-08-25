@@ -5,13 +5,14 @@ using DinnerInvite.Application.Authentication.Queries.Login;
 using DinnerInvite.Contracts.Authentication;
 using ErrorOr;
 using MapsterMapper;
-using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinnerInvite.Api.Controllers
-{   
+{
     [Route("auth")]
+    [AllowAnonymous]
     public class AuthenticationController : ApiController    
     {
         private readonly IMapper _mapper;
