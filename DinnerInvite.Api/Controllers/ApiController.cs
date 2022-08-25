@@ -3,6 +3,7 @@ using System.Linq;
 using DinnerInvite.Api.Common.Http;
 using ErrorOr;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace DinnerInvite.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     public class ApiController : ControllerBase
     {
         private ISender _mediator = null;
